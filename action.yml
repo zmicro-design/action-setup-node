@@ -42,7 +42,7 @@ runs:
         # @TODO remove local npm
         which npm
         npm --version
-        rm $(which npm)
+        sudo rm $(which npm)
         #
         which npm
         npm --version
