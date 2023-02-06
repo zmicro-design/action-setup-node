@@ -35,17 +35,12 @@ runs:
       shell: bash
       run: |
         node --version
-
-    - name: Setup Web Terminal
-      uses: zmicro-design/action-setup-web-terminal@v1
-      with:
-        use-link: true
     
     - name: Show NPM Version
       shell: bash
       run: |
         npm --version
-        
+
         # @TODO
         NODE_VERSION=$(zmicro nvm current)
         sudo ln -sf /data/plugins/nvm/versions/${NODE_VERSION}/bin/npm /usr/local/bin/npm
