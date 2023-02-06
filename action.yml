@@ -35,3 +35,8 @@ runs:
       shell: bash
       run: |
         node --version
+    
+    - name: Show NPM Version
+      shell: bash
+      run: |
+        npm --version
