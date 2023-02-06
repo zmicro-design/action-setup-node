@@ -39,4 +39,10 @@ runs:
     - name: Show NPM Version
       shell: bash
       run: |
+        # @TODO remove local npm
+        rm $HOME/.node/bin/npm
+        which npm
+        npm --version
+        #
+        which npm
         npm --version
