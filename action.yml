@@ -40,9 +40,9 @@ runs:
       shell: bash
       run: |
         # @TODO remove local npm
-        rm $HOME/.node/bin/npm
         which npm
         npm --version
+        rm $(which npm)
         #
         which npm
         npm --version
