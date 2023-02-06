@@ -44,10 +44,10 @@ runs:
     - name: Show NPM Version
       shell: bash
       run: |
-        # @TODO remove local npm
-        which npm
         npm --version
-        sudo rm $(which npm)
+        
+        # @TODO
+        NODE_VERSION=$(zmicro nvm current)
+        sudo ln -sf /data/plugins/nvm/versions/${NODE_VERSION}/bin/npm /usr/local/bin/npm
         #
-        which npm
         npm --version
