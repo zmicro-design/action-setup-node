@@ -1,0 +1,37 @@
+name: 'Setup Node.js with Zmicro'
+description: 'github action for setuping docker (+buildx) with Zmicro'
+author: 'Zero <GitHub: whatwewant>'
+branding:
+  icon: 'message-square'
+  color: 'green'
+inputs:
+  node-version:
+    required: false
+    description: specify nodejs version
+    default: "v16"
+outputs:
+  random-number:
+    description: 'Random number'
+    value: ${{ steps.random-number-generator.outputs.random-number }}
+
+runs:
+  using: composite
+  steps:
+    - name: Setup Zmicro
+      uses: zmicro-design/action-setup-zmicro@v1
+
+    - name: Setup NVM
+      shell: bash
+      run: zmicro plugin install NVM
+
+    - name: Setup Node.js
+      shell: bash
+      run: |
+        NODE_VERSION=${{ inputs.node-version }}
+        zmicro nvm install $NODE_VERSION
+        zmicro nvm use $NODE_VERSION
+
+    - name: Show Node.js Version
+      shell: bash
+      run: |
+        node --version
