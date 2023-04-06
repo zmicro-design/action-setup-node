@@ -31,7 +31,7 @@ jobs:
       - name: Show Info by Command
         shell: zmicro {0}
         run: |
-          echo "NVM $(nvm --version)"
+          echo "NVM $(nvm version)"
           echo "Node.js $(node --version)"
           echo "NPM $(npm --version)"
           echo "Yarn $(yarn --version)"

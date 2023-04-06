@@ -19,6 +19,9 @@ inputs:
     default: ${{ github.server_url == 'https://github.com' && github.token || '' }}
 
 outputs:
+  nvm-version:
+    description: 'The installed nvm version.'
+    value: ${{ steps.node.outputs.nvm-version }}
   node-version:
     description: 'The installed node version.'
     value: ${{ steps.node.outputs.node-version }}
