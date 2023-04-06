@@ -37,7 +37,7 @@ jobs:
           echo "Yarn $(yarn --version)"
 
           # pnpm only works on node >= 16.14
-          if [ "$(semver::compare_gte $NODE_VERSION v16.14)" = "true" ]; then
+          if [ "$(semver::compare_gte ${{ steps.node.outputs.node-version }} v16.14)" = "true" ]; then
             echo "Pnpm $(pnpm --version)"
           fi
 
