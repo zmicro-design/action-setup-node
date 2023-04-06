@@ -1,6 +1,6 @@
 {
   "name": "@zcorky/action-setup-node",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "github action for setup node",
   "keywords": [
     "action",

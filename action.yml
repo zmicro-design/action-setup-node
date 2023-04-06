@@ -35,7 +35,6 @@ outputs:
     description: 'The installed cnpm version.'
     value: ${{ steps.node.outputs.cnpm-version }}
 
-
 runs:
   using: composite
   steps:

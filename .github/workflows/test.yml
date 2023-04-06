@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build on Node.js ${{ matrix.node-version }}
-        uses: zmicro-design/action-setup-node@v1
+        uses: .
         id: node
         with:
           node-version: ${{ matrix.node-version }}
@@ -29,10 +29,15 @@ jobs:
           echo "Pnpm ${{ steps.node.outputs.pnpm-version }}"
 
       - name: Show Info by Command
+        shell: zmicro {0}
         run: |
           echo "NVM $(nvm --version)"
           echo "Node.js $(node --version)"
           echo "NPM $(npm --version)"
           echo "Yarn $(yarn --version)"
-          echo "Pnpm $(pnpm --version)"
+
+          # pnpm only works on node >= 16.14
+          if [ "$(semver::compare_gte $NODE_VERSION v16.14)" = "true" ]; then
+            echo "Pnpm $(pnpm --version)"
+          fi
 
