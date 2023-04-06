@@ -1,4 +1,4 @@
-name: Publish
+name: Test
 
 on:
   push:
@@ -25,14 +25,14 @@ jobs:
           echo "NVM ${{ steps.node.outputs.nvm-version }}"
           echo "Node.js ${{ steps.node.outputs.node-version }}"
           echo "NPM ${{ steps.node.outputs.npm-version }}"
-          # echo "Yarn ${{ steps.node.outputs.yarn-version }}"
-          # echo "Pnpm ${{ steps.node.outputs.pnpm-version }}"
+          echo "Yarn ${{ steps.node.outputs.yarn-version }}"
+          echo "Pnpm ${{ steps.node.outputs.pnpm-version }}"
 
       - name: Show Info by Command
         run: |
           echo "NVM $(nvm --version)"
           echo "Node.js $(node --version)"
           echo "NPM $(npm --version)"
-          # echo "Yarn $(yarn --version)"
-          # echo "Pnpm $(pnpm --version)"
+          echo "Yarn $(yarn --version)"
+          echo "Pnpm $(pnpm --version)"
 
