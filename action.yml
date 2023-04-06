@@ -32,71 +32,86 @@ runs:
     - name: Setup Zmicro
       uses: zmicro-design/action-setup-zmicro@v1
 
-    - name: Setup NVM
+    - name: Install Zmicro Setup Plugin
       shell: bash
-      run: zmicro plugin install nvm
+      run: zmicro plugin install setup
 
     - name: Setup Node.js
       shell: bash
-      run: |
-        NODE_VERSION=${{ inputs.node-version }}
-        ALWAYS_WAYS_AUTH=${{ inputs.always-auth }}
-
-        zmicro nvm install $NODE_VERSION
-        zmicro nvm use $NODE_VERSION
-
-    - name: Show Node.js Version
-      shell: bash
       id: node
       run: |
-        node --version
-        echo "node-version=$(node --version)" >> $GITHUB_OUTPUT
+        export NODE_VERSION=${{ inputs.node-version }}
+        export NPM_TOKEN=${{ inputs.token }}
+        export REGISTRY=${{ inputs.registry-url }}
+        export ALWAYS_WAYS_AUTH=${{ inputs.always-auth }}
 
-    - name: Show NPM Version
-      shell: bash
-      id: npm
-      run: |
-        npm --version
+        zmicro setup github-actions node
 
-        # @TODO
-        NODE_VERSION=$(zmicro nvm current)
-        sudo ln -sf /data/plugins/nvm/versions/${NODE_VERSION}/bin/npm /usr/local/bin/npm
-        #
-        npm --version
+    # - name: Setup NVM
+    #   shell: bash
+    #   run: zmicro plugin install nvm
 
-        echo "npm-version=$(npm --version)" >> $GITHUB_OUTPUT
+    # - name: Setup Node.js
+    #   shell: bash
+    #   run: |
+    #     NODE_VERSION=${{ inputs.node-version }}
+    #     ALWAYS_WAYS_AUTH=${{ inputs.always-auth }}
 
-    - name: Config NPM Config
-      shell: zmicro {0}
-      run: |
-        REGISTRY=${{ inputs.registry-url }}
-        ALWAYS_WAYS_AUTH=${{ inputs.always-auth }}
-        NPM_TOKEN=${{ inputs.token }}
+    #     zmicro nvm install $NODE_VERSION
+    #     zmicro nvm use $NODE_VERSION
 
-        # PREFIX
-        PREFIX="$REGISTRY"
+    # - name: Show Node.js Version
+    #   shell: bash
+    #   id: node
+    #   run: |
+    #     node --version
+    #     echo "node-version=$(node --version)" >> $GITHUB_OUTPUT
 
-        if [ -n "$REGISTRY" ]; then
-          # remove http: | https:
-          PREFIX=${PREFIX#http:}
-          PREFIX=${PREFIX#https:}
-          # add end slash
-          if [ "$(string::ends_with $PREFIX /)" != "true" ]; then
-            PREFIX="${PREFIX}/"
-          fi
+    # - name: Show NPM Version
+    #   shell: bash
+    #   id: npm
+    #   run: |
+    #     npm --version
 
-          log::info "[$(timestamp)] set registry: $REGISTRY ..."
-          npm set registry $REGISTRY
+    #     # @TODO
+    #     NODE_VERSION=$(zmicro nvm current)
+    #     sudo ln -sf /data/plugins/nvm/versions/${NODE_VERSION}/bin/npm /usr/local/bin/npm
+    #     #
+    #     npm --version
 
-          if [ -n "$ALWAYS_WAYS_AUTH" ]; then
-            log::info "[$(timestamp)] set always auth: $PREFIX:always-auth ..."
-            npm config set $PREFIX:always-auth true
-          fi
+    #     echo "npm-version=$(npm --version)" >> $GITHUB_OUTPUT
 
-          if [ -n "$NPM_TOKEN" ]; then
-            log::info "[$(timestamp)] set always auth: $PREFIX:_authToken ..."
-            npm config set $PREFIX:_authToken "$NPM_TOKEN"
-          fi
-        else
-          log::info "[$(timestamp)] no npm config to set, ignore"
-        fi
+    # - name: Config NPM Config
+    #   shell: zmicro {0}
+    #   run: |
+    #     REGISTRY=${{ inputs.registry-url }}
+    #     ALWAYS_WAYS_AUTH=${{ inputs.always-auth }}
+    #     NPM_TOKEN=${{ inputs.token }}
+
+    #     # PREFIX
+    #     PREFIX="$REGISTRY"
+
+    #     if [ -n "$REGISTRY" ]; then
+    #       # remove http: | https:
+    #       PREFIX=${PREFIX#http:}
+    #       PREFIX=${PREFIX#https:}
+    #       # add end slash
+    #       if [ "$(string::ends_with $PREFIX /)" != "true" ]; then
+    #         PREFIX="${PREFIX}/"
+    #       fi
+
+    #       log::info "[$(timestamp)] set registry: $REGISTRY ..."
+    #       npm set registry $REGISTRY
+
+    #       if [ -n "$ALWAYS_WAYS_AUTH" ]; then
+    #         log::info "[$(timestamp)] set always auth: $PREFIX:always-auth ..."
+    #         npm config set $PREFIX:always-auth true
+    #       fi
+
+    #       if [ -n "$NPM_TOKEN" ]; then
+    #         log::info "[$(timestamp)] set always auth: $PREFIX:_authToken ..."
+    #         npm config set $PREFIX:_authToken "$NPM_TOKEN"
+    #       fi
+    #     else
+    #       log::info "[$(timestamp)] no npm config to set, ignore"
+    #     fi
